@@ -253,6 +253,24 @@ networks:
 
 
 
+public async Task<IActionResult> Ricerca(string searchString)
+{
+    // Usa ViewBag per mantenere il valore della ricerca
+    ViewBag.SearchString = searchString;
+
+    IQueryable<Rifugio> rifugi = _context.Rifugio
+        .Include(r => r.IdAtlNavigation)
+        .Include(r => r.IdComuneNavigation)
+        .Include(r => r.IdQualificaNavigation);
+    // Se il searchString non è vuoto o nullo, filtra per DenominazioneStruttura
+    if (!string.IsNullOrEmpty(searchString))
+    {
+        rifugi = rifugi.Where(r => r.DenominazioneStruttura.Contains(searchString));
+    }
+
+    return View("Index", await rifugi.ToListAsync());
+}
+
 
 
 
