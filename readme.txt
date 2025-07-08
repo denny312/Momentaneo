@@ -47,3 +47,29 @@ CREATE TABLE recensioni (
     FOREIGN KEY (id_rifugio) REFERENCES Rifugio(Id)
 );
 
+
+{
+  "ConnectionStrings": {
+    "DefaultConnection": "Server=.\\SQLEXPRESS;Database=RifugiPiemonte;User ID=sa;Password=rootable123!;TrustServerCertificate=True;"
+  },
+  "Logging": {
+    "LogLevel": {
+      "Default": "Information",
+      "Microsoft.AspNetCore": "Warning"
+    }
+  },
+  "AllowedHosts": "*"
+}
+
+
+Install-Package Microsoft.EntityFrameworkCore.SqlServer
+Install-Package Microsoft.EntityFrameworkCore.Tools
+Install-Package Microsoft.VisualStudio.Web.CodeGeneration.Design
+
+
+Scaffold-DbContext "Server=localhost\SQLEXPRESS;Database=RifugiPiemonte;User ID=sa;Password=rootable123!;TrustServerCertificate=True;" Microsoft.EntityFrameworkCore.SqlServer -OutputDir Models -Context RifiugiPiemonteContext -DataAnnotations
+
+
+
+
+
