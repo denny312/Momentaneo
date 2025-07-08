@@ -280,3 +280,58 @@ public async Task<IActionResult> Ricerca(string searchString)
         </p>
     </form>
 
+
+
+
+
+
+
+
+
+---------------------------------------------
+@{
+    ViewData["Title"] = "Dettagli Rifugio";
+}
+
+<h1>Dettagli del Rifugio: @Model.DenominazioneStruttura</h1>
+
+<div>
+    <strong>Denominazione:</strong> @Model.DenominazioneStruttura
+</div>
+<div>
+    <strong>Indirizzo:</strong> @Model.Indirizzo
+</div>
+<div>
+    <strong>Numero Civico:</strong> @Model.NroCivico
+</div>
+<div>
+    <strong>Qualifica:</strong> @Model.IdQualificaNavigation
+</div>
+<div>
+    <strong>Altitudine Struttura:</strong> @Model.AltitudineStruttura
+</div>
+<div>
+    <strong>Telefono:</strong> @Model.Telefono
+</div>
+<div>
+    <strong>Email:</strong> @Model.Email
+</div>
+<div>
+    <strong>Sito Web:</strong> <a href="@Model.SitoWeb" target="_blank">@Model.SitoWeb</a>
+</div>
+
+<!-- Pulsante per lasciare una recensione solo se l'utente è autenticato -->
+@if (User.Identity.IsAuthenticated)
+{
+    <form asp-controller="Recensioni" asp-action="Create" method="get">
+        <input type="hidden" name="rifugioId" value="@Model.Id" />
+        <input type="submit" value="Inserisci la tua recensione" class="btn btn-primary" />
+    </form>
+}
+else
+{
+    <p><strong>Accedi per poter lasciare una recensione!</strong></p>
+}
+
+<!-- Link per tornare alla lista dei rifugi -->
+<a asp-controller="Rifugi" asp-action="Index" class="btn btn-secondary">Torna all'elenco</a>
