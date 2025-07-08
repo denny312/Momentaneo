@@ -50,7 +50,7 @@ CREATE TABLE recensioni (
 
 {
   "ConnectionStrings": {
-    "DefaultConnection": "Server=.\\SQLEXPRESS;Database=RifugiPiemonte;User ID=sa;Password=rootable123!;TrustServerCertificate=True;"
+    "DefaultConnection": "Server=.\\SQLEXPRESS;Database=RifugiPiemonte;User ID=sa;Password=Poncher2004!;TrustServerCertificate=True;"
   },
   "Logging": {
     "LogLevel": {
@@ -108,3 +108,20 @@ namespace RifugiPiemonte.Controllers
         }
     }
 }
+
+ dotnet add package Microsoft.VisualStudio.Web.CodeGeneration.Design --version 8.0.0
+Scaffold-DbContext "server=ESAME-CSP-19;Database=RifugiPiemonte;User ID=sa;Password=Poncher2004!;TrustServerCertificate=True;Trusted_Connection=True;"Microsoft.EntityFrameworkCore.SqlServer -OutputDir Models -Context RifiugiPiemonteContext -DataAnnotations -Force
+
+
+namespace RifugiPiemonte.Models
+{
+    public class ErrorViewModel
+    {
+        public string? RequestId { get; set; }
+
+        public bool ShowRequestId => !string.IsNullOrEmpty(RequestId);
+    }
+}
+
+
+
