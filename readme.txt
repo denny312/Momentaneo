@@ -125,3 +125,134 @@ namespace RifugiPiemonte.Models
 
 
 
+
+
+
+
+
+
+
+
+
+DOCKER COMPOSE 
+✅ stack-traefik/docker-compose.yml (versione corretta)
+yaml
+Copia
+Modifica
+version: '3.8'
+
+services:
+  traefik:
+    image: traefik:v3.0
+    command:
+      - --api.dashboard=true
+      - --api.insecure=true
+      - --entrypoints.web.address=:80
+      - --providers.docker=true
+      - --providers.docker.exposedbydefault=false
+      - --providers.swarm=true
+      - --providers.swarm.exposedbydefault=false
+    ports:
+      - "8880:80"      # Accesso ai servizi (via Traefik)
+      - "8080:8080"    # Dashboard Traefik
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    networks:
+      - traefik-net
+    deploy:
+      placement:
+        constraints:
+          - node.role == manager
+      labels:
+        - "traefik.enable=true"
+        - "traefik.http.routers.api.rule=Host(`traefik.localhost`)"
+        - "traefik.http.routers.api.service=api@internal"
+        - "traefik.http.routers.api.entrypoints=web"
+
+networks:
+  traefik-net:
+    external: true
+
+
+
+✅ stack-flask/docker-compose.yml per Swarm e Traefik
+Ecco la versione corretta del file:
+
+yaml
+Copia
+Modifica
+version: '3.8'
+
+services:
+  flask:
+    image: my-flask-app:latest
+    deploy:
+      replicas: 5
+      labels:
+        - "traefik.enable=true"
+        - "traefik.http.routers.flask.rule=Host(`flask.localhost`)"
+        - "traefik.http.services.flask.loadbalancer.server.port=5000"
+        - "traefik.http.routers.flask.entrypoints=web"
+    networks:
+      - traefik-net
+
+networks:
+  traefik-net:
+    external: true
+
+🛠️ Dockerfile corretto (multistage)
+Sostituisci il tuo con questo:
+
+dockerfile
+Copia
+Modifica
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
+WORKDIR /src
+COPY DotnetApp/*.csproj ./DotnetApp/
+RUN dotnet restore ./DotnetApp/DotnetApp.csproj
+
+COPY DotnetApp/ ./DotnetApp/
+WORKDIR /src/DotnetApp
+RUN dotnet publish -c Release -o /app/publish
+
+FROM mcr.microsoft.com/dotnet/aspnet:8.0
+WORKDIR /app
+COPY --from=build /app/publish .
+EXPOSE 8088
+ENTRYPOINT ["dotnet", "DotnetApp.dll"]
+📁 Assicurati che:
+
+DotnetApp/ contenga sia Program.cs che DotnetApp.csproj
+
+🛠️ docker-compose.yml corretto (Swarm + Traefik)
+Sostituisci il tuo con questo:
+
+yaml
+Copia
+Modifica
+version: '3.8'
+
+services:
+  dotnet:
+    image: my-dotnet-app:latest
+    deploy:
+      replicas: 5
+      labels:
+        - "traefik.enable=true"
+        - "traefik.http.routers.dotnet.rule=Host(`dotnet.localhost`)"
+        - "traefik.http.services.dotnet.loadbalancer.server.port=8088"
+        - "traefik.http.routers.dotnet.entrypoints=web"
+    networks:
+      - traefik-net
+
+networks:
+  traefik-net:
+    external: true
+
+
+
+
+
+
+
+
