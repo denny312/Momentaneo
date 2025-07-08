@@ -25,8 +25,9 @@ FOREIGN KEY (Id) REFERENCES Comune(Id);
 
 -- QUESTION 2 
 -- Creazione tabella clienti
+-- Creazione tabella clienti
 CREATE TABLE clienti (
-    id_cliente INT PRIMARY KEY AUTO_INCREMENT,
+    id_cliente INT PRIMARY KEY IDENTITY(1,1),
     nome VARCHAR(50) NOT NULL,
     cognome VARCHAR(50) NOT NULL,
     email VARCHAR(100) NOT NULL UNIQUE
@@ -34,12 +35,15 @@ CREATE TABLE clienti (
 
 -- Creazione tabella recensioni
 CREATE TABLE recensioni (
-    id_recensione INT PRIMARY KEY AUTO_INCREMENT,
+    id_recensione INT PRIMARY KEY IDENTITY(1,1),
     titolo VARCHAR(100) NOT NULL,
     data_inserimento DATE NOT NULL,
     id_cliente INT NOT NULL,
+    id_rifugio INT NOT NULL,
     data_soggiorno DATE NOT NULL,
-    descrizione TEXT,
-    voto INT CHECK (voto >= 1 AND voto <= 5),
-    FOREIGN KEY (id_cliente) REFERENCES clienti(id_cliente)
+    descrizione VARCHAR(255),
+    voto INT NOT NULL,
+    FOREIGN KEY (id_cliente) REFERENCES clienti(id_cliente),
+    FOREIGN KEY (id_rifugio) REFERENCES Rifugio(Id)
 );
+
