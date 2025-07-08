@@ -1,0 +1,22 @@
+
+ALTER TABLE Rifugio
+ADD CONSTRAINT fk_rifugio_qualifica
+FOREIGN KEY (Id) REFERENCES Qualifica(Id);
+
+
+ALTER TABLE Rifugio
+ADD CONSTRAINT fk_rifugio_atl
+FOREIGN KEY (Id) REFERENCES ATL(Id);
+
+
+ALTER TABLE Comune
+ADD CONSTRAINT fk_comune_provincia
+FOREIGN KEY (Id) REFERENCES Provincia(Id);
+
+ALTER TABLE ATL
+ADD CONSTRAINT fk_atl_provincia
+FOREIGN KEY (Id) REFERENCES Provincia(Id);
+
+ALTER TABLE Rifugio
+ADD CONSTRAINT fk_rifugio_comune
+FOREIGN KEY (Id) REFERENCES Comune(Id);
