@@ -67,9 +67,7 @@ Install-Package Microsoft.EntityFrameworkCore.Tools
 Install-Package Microsoft.VisualStudio.Web.CodeGeneration.Design
 
 
-Scaffold-DbContext "Server=localhost\SQLEXPRESS;Database=RifugiPiemonte;User ID=sa;Password=rootable123!;TrustServerCertificate=True;" Microsoft.EntityFrameworkCore.SqlServer -OutputDir Models -Context RifiugiPiemonteContext -DataAnnotations
-
-
+Scaffold-DbContext "Server=ESAME-CSP-29;Database=RifugiPiemonte;User ID=sa;Password=Poncher2004!;TrustServerCertificate=True;Trusted_Connection=True;" Microsoft.EntityFrameworkCore.SqlServer -OutputDir Models -Context RifiugiPiemonteContext -DataAnnotations --Force
 
 
 
