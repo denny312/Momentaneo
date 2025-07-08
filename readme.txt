@@ -70,4 +70,5 @@ Install-Package Microsoft.VisualStudio.Web.CodeGeneration.Design
 Scaffold-DbContext "Server=ESAME-CSP-29;Database=RifugiPiemonte;User ID=sa;Password=Poncher2004!;TrustServerCertificate=True;Trusted_Connection=True;" Microsoft.EntityFrameworkCore.SqlServer -OutputDir Models -Context RifiugiPiemonteContext -DataAnnotations --Force
 
 
+dotnet add package Microsoft.VisualStudio.Web.CodeGeneration.Design --version 8.0.0
 
