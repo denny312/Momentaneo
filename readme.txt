@@ -272,5 +272,11 @@ public async Task<IActionResult> Ricerca(string searchString)
 }
 
 
-
+    <form asp-controller="Rifugi" asp-action="Ricerca" method="get">
+        <p>
+            Cerca per denominazione:
+            <input type="text" name="searchString" value="@ViewBag.SearchString" />
+            <input type="submit" value="Cerca" class="btn btn-primary" />
+        </p>
+    </form>
 
