@@ -335,3 +335,74 @@ else
 
 <!-- Link per tornare alla lista dei rifugi -->
 <a asp-controller="Rifugi" asp-action="Index" class="btn btn-secondary">Torna all'elenco</a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+1. Calcolo risorse complessive (vBOM)
+Anno Uno:
+- vCPU totali: 800
+- RAM totale: 800 GB
+- Storage totale: 12 TB
+- IOPS totali: 28.000
+- Banda North/South: 2 Gbit/s
+- Banda East/West: 60 Gbit/s
+Anno Due:
+- vCPU totali: 2.400
+- RAM totale: 2.400 GB
+- Storage totale: 36 TB
+- IOPS totali: 84.000
+- Banda North/South: 12 Gbit/s
+- Banda East/West: 300 Gbit/s
+2. Dimensionamento hardware (blade server)
+Caratteristiche blade Skylake:
+- 2 CPU da 20 core (40 core, 80 vCPU con HT)
+- Limite blade: 32 vCPU utilizzabili
+- RAM: 128 GB
+- Banda NIC: 10 Gbps (una attiva)
+Anno Uno:
+- Blade minimi per vCPU: 25
+- Blade richiesti con anti-affinity (1+1): 50
+Anno Due:
+- Blade minimi per vCPU: 75
+- Blade richiesti con anti-affinity: 150
+3. Scelte architetturali e motivazioni
+Hypervisor scelto: Tipo 1 (bare-metal)
+Motivazione: È installato direttamente sull'hardware, garantendo prestazioni elevate,
+massimo isolamento tra le VM e maggiore stabilità rispetto agli hypervisor di tipo 2.
+Essenziale per un ambiente enterprise con alti requisiti di affidabilità e performance.
+Tecnica: Virtualizzazione completa (full virtualization) con supporto VT-x
+Motivazione: Permette di eseguire sistemi operativi guest senza modifiche.
+Ideale per l'ambiente Linux usato dall'azienda. L'uso dell'estensione Intel VT-x
+garantisce alte prestazioni, grazie all'accelerazione hardware.
+Prodotto consigliato: VMware vSphere / ESXi
+Motivazione: Soluzione leader di mercato per ambienti enterprise. Offre:
+- Alta disponibilità (HA), gestione dinamica delle risorse (DRS)
+- Funzionalità avanzate come vMotion, snapshot, backup e clustering
+- Ampio supporto, stabilità e documentazione tecnica
+Alternativa open source per budget limitato: Proxmox VE
+4. Voci di costo (CAPEX / OPEX)
+CAPEX (una tantum):
+- Blade server e chassis
+- Storage centralizzato (SAN, NAS, SSD array)
+- Licenze hypervisor (es. VMware vSphere)
+- Networking (switch, cablaggi, ridondanza)
+- Sistemi elettrici (UPS, ridondanze)
+- Eventuali licenze di supporto Linux
+OPEX (ricorrenti):
+- Manutenzione hardware e supporto tecnico
+- Aggiornamenti e rinnovi licenze software
+- Consumi energetici e raffreddamento
+- Formazione del personale tecnico
+- Monitoraggio, sicurezza e continuità operativa
