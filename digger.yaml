@@ -5,11 +5,10 @@ projects:
     workflow: critical0_default_workflow
     include_patterns: ["./terraform/modules/**"]
     plan:
-
 workflows:
   critical0_default_workflow:
     workflow_configuration:
       on_pull_request_pushed: [digger plan]
       on_pull_request_closed: [digger unlock]
-      
 telemetry: false
+auto_merge: true
