@@ -1,25 +1,31 @@
-
 name: Digger - Drift Detection
+
 on:
   workflow_dispatch:
   schedule:
-    '0 7 * * 1-5': '0 6 * * 1-5' # At 09:30 on every day-of-week from Monday through Friday
+    - cron: '30 9 * * 1-5' # At 09:30 on every day-of-week from Monday through Friday
+
 env:
   GITHUB_CONTEXT: ${{ toJson(github) }}
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
 jobs:
   detect-drift:
     # This disables the entire workflow
     if: false
+
     runs-on: arc-dsk1-org
+
     steps:
       - name: Set git config
         run: |
           /usr/bin/git config --global --add url."https://${{ secrets.TFMODULES_GH_PAT_TOKEN }}@github.com/criticalcase".insteadOf https://github.com/criticalcase
+
       - name: Setup Infracost
         uses: infracost/actions/setup@v2
         with:
           api-key: ${{ secrets.INFRACOST_DIGITAL_API_KEY }}
+
       - name: digger drift detection
         uses: diggerhq/digger@v0.6.81
         with:
@@ -34,6 +40,7 @@ jobs:
           drift-detection-slack-notification-url: ${{ secrets.MATTERMOST_ALERT_WEBHOOK }}
         env:
           TELEMETRY: false
+
       - name: Notify mattermost of failure
         if: failure()
         uses: mattermost/action-mattermost-notify@master
@@ -45,4 +52,3 @@ jobs:
             [Digger Drift Detection Action](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}) has failed execution :x:
           MATTERMOST_USERNAME: ${{ github.triggering_actor }}
           MATTERMOST_ICON_URL: https://cdn3.iconfinder.com/data/icons/system-basic-vol-4-1/20/icon-note-attention-alt3-512.png
-
