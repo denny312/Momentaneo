@@ -1,12 +1,44 @@
-name: Renovate
+name: Push Multi-Arch container images to ECR
 
 on:
-  workflow_dispatch:
-  schedule:
-    - cron: "30 7 * * 1-5"
+  workflow_call:
+
+concurrency: renovate
 
 jobs:
-  run-renovate:
-    uses: criticalcase/renovate-config/.github/workflows/renovate.yaml@main
-    secrets: inherit
+  renovate:
+    name: Run Renovate
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+      actions: write
+      id-token: write
+      pull-requests: write
+      issues: write
+      statuses: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Self-hosted Renovate
+        uses: renovatebot/github-action@v43.0.5
+        env:
+          # Repository taken from variable to keep configuration file generic
+          RENOVATE_REPOSITORIES: ${{ github.repository }}
+          # Onboarding not needed for self hosted
+          RENOVATE_ONBOARDING: "false"
+          # Username for GitHub authentication (should match GitHub App name + [bot])
+          RENOVATE_USERNAME: "criticalcase-digital-solutions"
+          # Git commit author used, must match GitHub App
+          RENOVATE_GIT_AUTHOR: "criticalcase-digital-solutions-renovate <134928676+criticalcase-digital-solutions@users.noreply.github.com>"
+          # Use GitHub API to create commits (this allows for signed commits from GitHub App)
+          RENOVATE_PLATFORM_COMMIT: "true"
+          # Override schedule if set
+          RENOVATE_FORCE: ${{ github.event.inputs.overrideSchedule == 'true' && '{''schedule'':null}' || '' }}
+          LOG_LEVEL: ${{ inputs.logLevel || 'info' }}
+        with:
+          configurationFile: .github/renovate.json
+          token: ${{ secrets.RENOVATE_GH_PAT_TOKEN }}
 
