@@ -24,7 +24,7 @@ services:
     working_dir: /usr/src/app
     command: python app.py
     networks:
-      - legacy_net
+      - CommitWizard
   redis:
     image: redis:3.2 # rilasciato nel 2016
     networks:
