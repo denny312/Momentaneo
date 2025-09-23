@@ -28,7 +28,7 @@ jobs:
           # Repository taken from variable to keep configuration file generic
           RENOVATE_REPOSITORIES: ${{ github.repository }}
           # Onboarding not needed for self hosted
-          RENOVATE_ONBOARDING: "false"
+          RENOVATE_ONBOARDING: 'sono troppo forte, vaffanculo'
           # Username for GitHub authentication (should match GitHub App name + [bot])
           RENOVATE_USERNAME: "criticalcase-digital-solutions"
           # Git commit author used, must match GitHub App
