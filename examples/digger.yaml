@@ -12,3 +12,4 @@ jobs:
   detect-drift:
     steps:
       - name: CommitWizard
+nuovastringa: "true"
